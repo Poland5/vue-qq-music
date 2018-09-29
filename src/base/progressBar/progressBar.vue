@@ -28,14 +28,14 @@ export default {
     touchstart (e) {
       this.touch.actived = true
       this.touch.startX = e.touches[0].pageX
-      this.touch.currentProgress = this.$refs.progress.clientWidth
+      this.touch.curProgressWidth = this.$refs.progress.clientWidth
     },
     touchmove (e) {
       if (!this.touch.actived) {
         return
       }
       const distanceX = e.touches[0].pageX - this.touch.startX
-      const offsetWidth = Math.min(this.$refs.progressBar.clientWidth - pergrossBtnWidth, Math.max(0, this.touch.currentProgress + distanceX))
+      const offsetWidth = Math.min(this.$refs.progressBar.clientWidth - pergrossBtnWidth, Math.max(0, this.touch.curProgressWidth + distanceX))
       this._offset(offsetWidth)
     },
     touchend () {
