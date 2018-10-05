@@ -43,7 +43,11 @@ export default {
       this._triggerPercent()
     },
     clickProgress (e) {
-      this._offset(e.offsetX)
+      let rect = this.$refs.progressBar.getBoundingClientRect()
+      let offsetWidth = e.pageX - rect.left
+      this._offset(offsetWidth)
+      // 点击progress-btn位置获取有误
+      // this._offset(e.offsetX)
       this._triggerPercent()
     },
     _triggerPercent () {

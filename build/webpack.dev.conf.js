@@ -49,6 +49,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       poll: config.dev.poll,
     },
     before(apiRoutes){
+      /**
+       * 后端数据请求（伪造请求来源）
+       */
       apiRoutes.get('/api/getDiscList',(req,res)=>{
         const url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg';
         axios.get(url, {
@@ -63,8 +66,34 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         }).catch((e) => {
           console.log(e);
         })
-      });
-       app.use('/api', apiRoutes);
+      })
+      apiRoutes.get('/api/lyric', (req, res) => {
+        const url = 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg';
+        axios.get(url, {
+          headers: {
+            referer: 'https://c.y.qq.com/',
+            host: 'c.y.qq.com'
+          },
+          params: req.query  //这是请求的query
+        }).then((response) => {
+          let ret = response.data
+          if (typeof ret === 'string') {
+            //"MusicJsonCallback({\"retcode\":0,\"code\":0,\"subcode\":0,\"lyric\":\"W3RpOua8l....})"
+            let reg = /^\w+\(({[^()]+})\)$/
+            var matches = ret.match(reg)
+            if (matches) {
+              // 0: "MusicJsonCallback({"retcode":0,"code":0,"subcode":0,"lyric":"W3RpOua8l})"
+              // 1: "{"retcode":0,"code":0,"subcode":0,"lyric":"W3RpOua8l}"
+              ret = JSON.parse(matches[1])
+            }
+          }
+          //response是api地址返回的，数据在data里。
+          res.json(ret)
+        }).catch((e) => {
+          console.log(e);
+        })
+      })
+      app.use('/api', apiRoutes);
     },
   },
   plugins: [
