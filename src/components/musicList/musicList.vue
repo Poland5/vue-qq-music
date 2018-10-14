@@ -27,6 +27,7 @@ import Scroll from 'base/scroll/scroll'
 import SongList from '@/components/songList/songList'
 import { prefixStyle } from 'common/js/dom'
 import { mapActions } from 'vuex'
+import { playlistMixin } from 'common/js/mixin'
 
 const RESERVED_HEIGHT = 40
 const transform = prefixStyle('transform')
@@ -42,6 +43,7 @@ export default {
     Scroll,
     SongList
   },
+  mixins: [playlistMixin],
   props: {
     bgImage: {
       type: String,
@@ -75,6 +77,11 @@ export default {
       'selectPlay',
       'randomPlay'
     ]),
+    handlePlaylist (playlist) {
+      const bottom = playlist.length > 0 ? '60px' : ''
+      this.$refs.list.$el.style.bottom = bottom
+      this.$refs.list.refresh()
+    },
     scroll (pos) {
       this.scrollY = pos.y
     },

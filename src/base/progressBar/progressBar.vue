@@ -26,12 +26,12 @@ export default {
   },
   methods: {
     touchstart (e) {
-      this.touch.actived = true
+      this.touch.initiated = true
       this.touch.startX = e.touches[0].pageX
       this.touch.curProgressWidth = this.$refs.progress.clientWidth
     },
     touchmove (e) {
-      if (!this.touch.actived) {
+      if (!this.touch.initiated) {
         return
       }
       const distanceX = e.touches[0].pageX - this.touch.startX
@@ -39,7 +39,7 @@ export default {
       this._offset(offsetWidth)
     },
     touchend () {
-      this.touch.actived = false
+      this.touch.initiated = false
       this._triggerPercent()
     },
     clickProgress (e) {
@@ -62,7 +62,7 @@ export default {
   },
   watch: {
     percent (newPercent) {
-      if (newPercent >= 0 && !this.touch.actived) {
+      if (newPercent >= 0 && !this.touch.initiated) {
         const barWidth = this.$refs.progressBar.clientWidth - pergrossBtnWidth
         const offsetWidth = newPercent * barWidth
         this._offset(offsetWidth)

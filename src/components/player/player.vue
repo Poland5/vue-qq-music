@@ -52,7 +52,7 @@
           <div class="progress-wrapper">
             <span class="time time-l">{{format(currentTime)}}</span>
             <div class="progress-bar-wrapper">
-              <progress-bar :percent="percent" @changePercent="onChangePercent"></progress-bar>
+              <progress-bar :percent="percent" @changePercent="onChangeProgressBar"></progress-bar>
             </div>
             <span class="time time-r">{{format(currentSong.duration)}}</span>
           </div>
@@ -109,6 +109,7 @@ import Lyric from 'common/js/lyric'
 import ProgressBar from 'base/progressBar/progressBar'
 import ProgressCircle from 'base/progressCircle/progressCircle'
 import Scroll from 'base/scroll/scroll'
+// import { playlistMixin } from 'common/js/mixin'
 
 const transform = prefixStyle('transform')
 const transitionDuration = prefixStyle('transitionDuration')
@@ -125,6 +126,7 @@ export default {
       playingLyric: ''
     }
   },
+  // mixins: [playlistMixin],
   components: {
     ProgressBar,
     ProgressCircle,
@@ -290,7 +292,7 @@ export default {
       const second = this._pad(interval % 60)
       return `${minute}:${second}`
     },
-    onChangePercent (percent) {
+    onChangeProgressBar (percent) {
       const currentTime = percent * this.currentSong.duration
       this.$refs.audio.currentTime = currentTime
       if (!this.playing) {
