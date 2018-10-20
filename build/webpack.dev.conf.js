@@ -93,6 +93,30 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           console.log(e);
         })
       })
+      apiRoutes.get('/api/getSongList',(req,res)=>{
+        const url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg';
+        axios.get(url, {
+          headers: {
+            referer: 'https://c.y.qq.com/',
+            host: 'c.y.qq.com'
+          },
+          params: req.query  //这是请求的query
+        }).then((response) => {
+          var ret = response.data
+          //response是api地址返回的，数据在data里。
+          if (typeof ret === 'string') {
+            var reg = /^\w+\(({[^()]+})\)$/
+            var matches = ret.match(reg)
+            if (matches) {
+              ret = JSON.parse(matches[1])
+              console.log(ret);
+            }
+          }
+          res.json(ret)
+        }).catch((e) => {
+          console.log(e);
+        })
+      })
       app.use('/api', apiRoutes);
     },
   },
