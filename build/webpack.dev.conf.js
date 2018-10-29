@@ -109,7 +109,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
             var matches = ret.match(reg)
             if (matches) {
               ret = JSON.parse(matches[1])
-              console.log(ret);
             }
           }
           res.json(ret)

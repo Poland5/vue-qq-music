@@ -36,7 +36,7 @@
 
 <script>
 import Scroll from 'base/scroll/scroll'
-import {getData} from 'common/js/dom'
+import { getData } from 'common/js/dom'
 
 const ANCHOR_HEIGHT = 18
 const TITLE_HEIGHT = 30

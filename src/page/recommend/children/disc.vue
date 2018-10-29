@@ -7,9 +7,15 @@
 import { mapGetters } from 'vuex'
 import { getSongList } from 'api/recommend'
 import { ERR_OK } from 'api/config'
-import MusicList from '@/components/musiclist/musiclist'
+import { createDiscSong } from 'common/js/song'
+import MusicList from '@/components/musicList/musicList'
 
 export default {
+  data () {
+    return {
+      songs: []
+    }
+  },
   components: {
     MusicList
   },
@@ -34,11 +40,17 @@ export default {
         return
       }
       getSongList(this.disc.dissid).then((res) => {
-        console.log(res)
         if (res.code === ERR_OK) {
-          console.log(res)
+          this.songs = this._normalize(res.cdlist[0].songlist)
         }
       })
+    },
+    _normalize (list) {
+      let ret = []
+      list.forEach((musicData) => {
+        ret.push(createDiscSong(musicData))
+      })
+      return ret
     }
   }
 }

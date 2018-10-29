@@ -1,6 +1,7 @@
 import originJsonp from 'jsonp'
 
 export default function jsonp (url, data, option) {
+  // https://c.y.qq.com/v8/fcg-bin/fcg_myqq_toplist.fcg
   url += (url.indexOf('?') < 0 ? '?' : '&') + param(data)
 
   return new Promise((resolve, reject) => {
